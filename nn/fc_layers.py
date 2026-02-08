@@ -26,7 +26,9 @@ class FullyConnectedLayer:
 
     # Backward pass
     def backward(self, dZ):
-        self.dW = np.dot(self.X.T, dZ)
-        self.dB = np.sum(dZ, axis=0, keepdims=True)
-        dX = np.dot(dZ, self.weights.T)
+
+        # Compute gradients w.r.t. weights, biases, and input
+        self.dW = np.dot(self.X.T, dZ) # Gradient w.r.t weights
+        self.dB = np.sum(dZ, axis=0, keepdims=True) # Gradient w.r.t biases
+        dX = np.dot(dZ, self.weights.T) # Gradient w.r.t. input
         return dX
