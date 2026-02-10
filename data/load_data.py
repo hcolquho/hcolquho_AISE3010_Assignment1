@@ -33,10 +33,10 @@ def one_hot_encode(data, exclude_columns=[]):
     return encoded_data
 
 # Function to normalise numerical features
-def normalise_features(data):
+def normalise_features(data, exclude_columns=[]):
 
     # Normalise numerical features to have mean 0 and std 1
-    numerical_cols = data.select_dtypes(include=[np.number]).columns
+    numerical_cols = [col for col in data.select_dtypes(include=[np.number]).columns if col not in exclude_columns]
     data[numerical_cols] = (data[numerical_cols] - data[numerical_cols].mean()) / data[numerical_cols].std()
     return data
 
@@ -54,13 +54,6 @@ def handle_missing_values(data):
 
     return data
 
-
-# Combined preprocessing function
-def preprocess_data(data):
-    data = handle_missing_values(data)
-    data = one_hot_encode(data)
-    data = normalise_features(data)
-    return data
 
 # Manual train-test split
 def train_test_split(X, y, test_ratio=0.2, seed=42):
